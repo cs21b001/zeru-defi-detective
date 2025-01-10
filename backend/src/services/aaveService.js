@@ -11,21 +11,25 @@ class AaveService {
     console.log('Fetching transactions for:', walletAddress);
     const query = `
       query UserTransactions($user: String!) {
-        userTransactions(
-          where: { user: $user }
-          orderBy: timestamp
-          orderDirection: desc
-          first: 100
-        ) {
-          id
-          timestamp
-          txHash
-          action
-          user {
-            id
-          }
+      userTransactions(
+        where: { user: $user }
+        orderBy: timestamp
+        orderDirection: desc
+        first: 100
+      ) {
+        id
+        timestamp
+        txHash
+        action
+        amount
+        assetPriceUSD
+        reserve {
+          symbol
+          decimals
         }
       }
+    }
+
     `;
 
     try {
