@@ -9,7 +9,24 @@ export default function TransactionTable({ walletAddress }: TransactionTableProp
 
   if (loading) return <div>Loading transactions...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (!transactions?.length) return <div>No transactions found</div>;
+
+  // Create a new variable for display
+  const displayTransactions = transactions?.length ? transactions : [
+    {
+      hash: '0x12d9c5fd9e271d2ccc3d8697ff9d2d139d534108',
+      timestamp: Date.now() / 1000, // Current time
+      from: '0xabcdefabcdefabcdefabcdefabcdefabcdefabcd',
+      to: '0xabcdefabcdefabcdefabcdefabcdefabcdefabcd',
+      value: 1.5,
+    },
+    {
+      hash: '0xabcdefabcdefabcdefabcdefabcdefabcdef12345678',
+      timestamp: Date.now() / 1000 - 86400, // 1 day ago
+      from: '0xabcdefabcdefabcdefabcdefabcdefabcdefabcd',
+      to: '0xabcdefabcdefabcdefabcdefabcdefabcdefabcd',
+      value: 2.0,
+    },
+  ];
 
   return (
     <div className="overflow-x-auto">
@@ -24,7 +41,7 @@ export default function TransactionTable({ walletAddress }: TransactionTableProp
           </tr>
         </thead>
         <tbody>
-          {transactions.map((tx) => (
+          {displayTransactions.map((tx) => (
             <tr key={tx.hash} className="border-t">
               <td className="px-4 py-2 font-mono text-sm">{tx.hash.slice(0, 10)}...</td>
               <td className="px-4 py-2">{new Date(tx.timestamp * 1000).toLocaleString()}</td>
@@ -35,6 +52,9 @@ export default function TransactionTable({ walletAddress }: TransactionTableProp
           ))}
         </tbody>
       </table>
+      {transactions?.length ? null : (
+        <p className="text-red-500 mb-4">Note: The displayed data is dummy data.</p>
+      )}
     </div>
   );
-} 
+}
