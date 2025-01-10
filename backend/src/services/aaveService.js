@@ -20,6 +20,7 @@ class AaveService {
           id
           timestamp
           txHash
+          action
           user {
             id
           }
